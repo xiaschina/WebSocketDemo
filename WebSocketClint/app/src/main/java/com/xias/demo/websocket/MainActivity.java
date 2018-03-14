@@ -38,8 +38,14 @@ public class MainActivity extends AppCompatActivity implements OnWebSocketConnec
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                webSocketClient.send(editText.getText().toString());
-                editText.setText("");
+                if(TextUtils.isEmpty(editText.getText().toString()))
+                    return;
+                if(webSocketClient.isOpen()) {
+                    webSocketClient.send(editText.getText().toString());
+                    editText.setText("");
+                }else{
+                    showToast("Connect is shut!");
+                }
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
